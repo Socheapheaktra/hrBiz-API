@@ -12,7 +12,9 @@ def create_employee():
             "message": "Invalid Data"
         }
         return jsonify(response)
+
     req = request.get_json()
+
     if "first_name" not in req or "last_name" not in req or "email" not in req \
             or "password" not in req or "phone" not in req:
         response = {
@@ -20,6 +22,14 @@ def create_employee():
             "message": "Invalid Arguments, Incorrect Parameters"
         }
         return jsonify(response)
+
+    if req['email'] == "" or req['password'] == "":
+        response = {
+            "status": False,
+            "message": "Email and Password cannot be empty!"
+        }
+        return jsonify(response)
+
     try:
         sql = 'INSERT INTO tblUser(first_name, last_name, email, password, phone) ' \
               'VALUES (%s, %s, %s, %s, %s)'
