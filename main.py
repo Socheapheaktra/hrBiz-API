@@ -12,4 +12,4 @@ app.register_blueprint(login, url_prefix="/login")
 app.register_blueprint(employee, url_prefix="/employee")
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=8080)
+    app.run()
