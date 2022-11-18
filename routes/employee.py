@@ -1,6 +1,9 @@
 from flask import Blueprint, request, jsonify
+
 from models.user import UserModel
+
 from utils.conn import mycursor, mydb
+from utils.util import check_email
 
 employee = Blueprint('employee', __name__)
 
@@ -27,6 +30,13 @@ def create_employee():
         response = {
             "status": False,
             "message": "Email and Password cannot be empty!"
+        }
+        return jsonify(response)
+
+    if check_email(req['email']):
+        response = {
+            "status": False,
+            "message": "This email has already been used!"
         }
         return jsonify(response)
 
