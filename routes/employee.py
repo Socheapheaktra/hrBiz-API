@@ -75,7 +75,7 @@ def get_user_detail():
         })
     try:
         sql = 'SELECT * FROM tblUser ' \
-              'WHERE user_id=%s'
+              'WHERE id=%s'
         values = [req['user_id'], ]
         mycursor.execute(sql, values)
     except Exception as err:
