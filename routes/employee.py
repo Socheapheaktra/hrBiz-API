@@ -59,6 +59,68 @@ def create_employee():
             "message": "New Employee added!"
         }
         return jsonify(response)
+    
+@employee.route('/user-detail', methods=['POST'])
+def get_user_detail():
+    if not request.data or not request.is_json:
+        return jsonify({
+            "status": False,
+            "message": "Invalid Data"
+        })
+    req = request.get_json()
+    if "user_id" not in req:
+        return jsonify({
+            "status": False,
+            "message": "Invalid Arguments"
+        })
+    try:
+        sql = 'SELECT * FROM tblUser ' \
+              'WHERE user_id=%s'
+        values = [req['user_id'], ]
+        mycursor.execute(sql, values)
+    except Exception as err:
+        return jsonify({
+            "status": False,
+            "message": f"{err}"
+        })
+    else:
+        user = mycursor.fetchone()
+        data = UserModel(
+            user_id=user[0],
+            role=user[1],
+            first_name=user[2],
+            last_name=user[3],
+            email=user[4],
+            password=user[5],
+            phone=user[6],
+            status=user[7]
+        ).to_dict()
+        return jsonify({
+            "status": True,
+            "message": "Success",
+            "data": data
+        })
+
+@employee.route('/update')
+def update_employee():
+    if not request.data or not request.is_json:
+        return jsonify({
+            "status": False,
+            "message": "Invalid Data"
+        })
+    req = request.get_json()
+    if "user_id" not in req or "first_name" not in req or "last_name" not in req \
+            or "email" not in req or "password" not in req or "phone" not in req:
+        return jsonify({
+            "status": False,
+            "message": "Invalid Arguments"
+        })
+    try:
+        pass
+    except Exception as err:
+        pass
+    else:
+        pass
 
 @employee.route('/list-employee', methods=["GET"])
 def get_employee_list():
