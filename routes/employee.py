@@ -112,7 +112,8 @@ def delete_employee():
             "message": "Invalid Arguments"
         })
     try:
-        sql = 'DELETE FROM tblUser ' \
+        sql = 'UPDATE tblUser ' \
+              'SET status=0 ' \
               'WHERE id=%s'
         values = [req['user_id'], ]
         mycursor.execute(sql, values)
