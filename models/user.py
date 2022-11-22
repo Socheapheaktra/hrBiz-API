@@ -20,3 +20,4 @@ class UserModel:
             "phone": self.phone,
             "status": self.status
         }
+    
