@@ -61,7 +61,6 @@ def create_employee():
         return jsonify(response)
 
 # TODO: Edit employee detail and update to database
-# FIXME: API not ready
 @employee.route('/edit', methods=['POST'])
 def edit_employee():
     if not request.data or not request.is_json:
@@ -99,10 +98,36 @@ def edit_employee():
         })
 
 # TODO: Delete employee from database with user_id
-# FIXME: API not ready
 @employee.route('/delete', methods=['POST'])
 def delete_employee():
-    pass
+    if not request.data or not request.is_json:
+        return jsonify({
+            "status": False,
+            "message": "Invalid Data"
+        })
+    req = request.get_json()
+    if "user_id" not in req:
+        return jsonify({
+            "status": False,
+            "message": "Invalid Arguments"
+        })
+    try:
+        sql = 'DELETE FROM tblUser ' \
+              'WHERE id=%s'
+        values = [req['user_id'], ]
+        mycursor.execute(sql, values)
+    except Exception as err:
+        mydb.rollback()
+        return jsonify({
+            "status": False,
+            "message": f"{err}"
+        })
+    else:
+        mydb.commit()
+        return jsonify({
+            "status": True,
+            "message": "Success"
+        })
     
 @employee.route('/user-detail', methods=['POST'])
 def get_user_detail():
@@ -144,27 +169,6 @@ def get_user_detail():
             "message": "Success",
             "data": data
         })
-
-@employee.route('/update')
-def update_employee():
-    if not request.data or not request.is_json:
-        return jsonify({
-            "status": False,
-            "message": "Invalid Data"
-        })
-    req = request.get_json()
-    if "user_id" not in req or "first_name" not in req or "last_name" not in req \
-            or "email" not in req or "password" not in req or "phone" not in req:
-        return jsonify({
-            "status": False,
-            "message": "Invalid Arguments"
-        })
-    try:
-        pass
-    except Exception as err:
-        pass
-    else:
-        pass
 
 @employee.route('/list-employee', methods=["GET"])
 def get_employee_list():
