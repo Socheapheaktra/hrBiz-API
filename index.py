@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, url_for, redirect
 
 from routes.login import login
 from routes.employee import employee
@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return "Hello World!"
+    return redirect(url_for("login.test"))
 
 app.register_blueprint(login, url_prefix="/login")
 app.register_blueprint(employee, url_prefix="/employee")

@@ -1,8 +1,13 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template
 from utils.conn import mycursor
 from models.user import UserModel
 
-login = Blueprint('login', __name__)
+login = Blueprint('login', __name__, template_folder='templates')
+
+@login.route("/test")
+def test():
+    return render_template("index.html")
+
 @login.route("/validate", methods=['POST'])
 def validate_user():
     if not request.data or not request.is_json:

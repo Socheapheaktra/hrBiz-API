@@ -7,6 +7,7 @@ from utils.util import check_email
 
 employee = Blueprint('employee', __name__)
 
+# TODO: Insert new employee into database
 @employee.route('/create', methods=["POST"])
 def create_employee():
     if not request.data or not request.is_json:
@@ -129,7 +130,8 @@ def delete_employee():
             "status": True,
             "message": "Success"
         })
-    
+
+# TODO: Fetch User detail after clicking on Edit User
 @employee.route('/user-detail', methods=['POST'])
 def get_user_detail():
     if not request.data or not request.is_json:
@@ -163,7 +165,7 @@ def get_user_detail():
             email=user[4],
             password=user[5],
             phone=user[6],
-            status=user[7]
+            status="Active" if user[7] == 1 else "Inactive"
         ).to_dict()
         return jsonify({
             "status": True,
@@ -171,6 +173,7 @@ def get_user_detail():
             "data": data
         })
 
+# TODO: Fetch all employees from database
 @employee.route('/list-employee', methods=["GET"])
 def get_employee_list():
     try:
