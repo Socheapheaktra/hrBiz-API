@@ -146,8 +146,17 @@ def get_user_detail():
             "message": "Invalid Arguments"
         })
     try:
-        sql = 'SELECT * FROM tblUser ' \
-              'WHERE id=%s'
+        sql = 'SELECT tblUser.id,' \
+              'tblRole.name,' \
+              'tblUser.first_name,' \
+              'tblUser.last_name, ' \
+              'tblUser.email,' \
+              'tblUser.password,' \
+              'tblUser.phone,' \
+              'tblUser.status ' \
+              'FROM tblUser ' \
+              'INNER JOIN tblRole ON tblUser.role_id = tblRole.id ' \
+              'WHERE tblUser.id=%s'
         values = [req['user_id'], ]
         mycursor.execute(sql, values)
     except Exception as err:
