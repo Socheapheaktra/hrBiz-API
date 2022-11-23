@@ -25,7 +25,7 @@ def get_report_list():
                 user_id=report[1],
                 sale_rep=report[2],
                 presale=report[3],
-                entry_date=report[4],
+                entry_date=report[4].strftime("%d-%m-%Y"),
                 forecast_lead=report[5],
                 cus_name=report[6],
                 contact_person=report[7],
@@ -43,3 +43,27 @@ def get_report_list():
             "message": "Success",
             "data": data
         })
+
+# TODO: Fetch report where status is 'Inactive'
+# FIXME: API not ready
+@report.route('/report-history', methods=['GET'])
+def fetch_history_report():
+    pass
+
+# TODO: Insert new report into database
+# FIXME: API not ready
+@report.route('/create', methods=['POST'])
+def create_report():
+    pass
+
+# TODO: Update report fields according to inputs
+# FIXME: API not ready
+@report.route('/edit', methods=['POST'])
+def edit_report():
+    pass
+
+# TODO: Update report status from active to inactive
+# FIXME: API not ready
+@report.route('/delete', methods=['POST'])
+def delete_report():
+    pass
