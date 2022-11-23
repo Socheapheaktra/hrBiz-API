@@ -25,7 +25,7 @@ def get_report_list():
                 user_id=report[1],
                 sale_rep=report[2],
                 presale=report[3],
-                entry_date=report[4].strftime("%d-%m-%Y"),
+                entry_date=report[4].strftime("%Y-%m-%d") if report[4] else None,
                 forecast_lead=report[5],
                 cus_name=report[6],
                 contact_person=report[7],
