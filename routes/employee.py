@@ -140,6 +140,7 @@ def get_user_detail():
             "message": "Invalid Data"
         })
     req = request.get_json()
+    print(req)
     if "user_id" not in req:
         return jsonify({
             "status": False,

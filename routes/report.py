@@ -131,7 +131,7 @@ def create_report():
 # FIXME: API not ready
 @report.route('/edit', methods=['POST'])
 def edit_report():
-    pass
+    return "This is not ready yet"
 
 # TODO: Update report status from active to inactive
 # FIXME: API not ready (Ready for testing)
