@@ -6,7 +6,6 @@ from utils.conn import mycursor, mydb
 
 report = Blueprint('report', __name__)
 
-
 @report.route('/report-list', methods=['GET'])
 def get_report_list():
     try:
@@ -44,7 +43,6 @@ def get_report_list():
             "message": "Success",
             "data": data
         })
-
 
 # TODO: Fetch report where status is 'Inactive'
 @report.route('/report-history', methods=['GET'])
@@ -85,7 +83,6 @@ def fetch_history_report():
             "message": "Success",
             "data": data
         })
-
 
 # TODO: Insert new report into database
 # FIXME: API not ready (Ready for testing)
@@ -129,7 +126,6 @@ def create_report():
             "status": True,
             "message": "New Report added successfully!"
         })
-
 
 # TODO: Update report fields according to inputs
 # FIXME: API not ready
@@ -180,7 +176,6 @@ def edit_report():
             "status": True,
             "message": "Report Update successfully!"
         })
-
 
 # TODO: Fetch Report detail after clicking on Edit Report
 @report.route('/report-detail', methods=['POST'])
@@ -247,7 +242,6 @@ def get_report_detail():
             "message": "Success",
             "data": data
         })
-
 
 # TODO: Update report status from active to inactive
 # FIXME: API not ready (Ready for testing)

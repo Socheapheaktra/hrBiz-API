@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 
 from models.user import UserModel
+from models.presale import PresaleModel
 
 from utils.conn import mycursor, mydb
 from utils.util import check_email
@@ -224,3 +225,40 @@ def get_employee_list():
             "data": data
         }
         return jsonify(response)
+
+# TODO: Fetch Sales/Presales Name from database
+@employee.route('/get-sale-presale', methods=["GET"])
+def get_sale_presale():
+    """
+    :HTTP GET: http://127.0.0.1:5001/employee/get-sale-presale
+    :return data: List of Presale Names.
+    """
+    try:
+        sql = 'SELECT * FROM tblPresale ' \
+              'WHERE status=1'
+        mycursor.execute(sql)
+    except Exception as err:
+        return jsonify({
+            "status": False,
+            "message": f"{err}"
+        })
+    else:
+        results = mycursor.fetchall()
+        data = list()
+        if results:
+            for result in results:
+                data.append(PresaleModel(
+                    presale_id=result[0],
+                    name=result[1],
+                    status="Active" if result[2] == 1 else "Inactive"
+                ).to_dict())
+            return jsonify({
+                "status": True,
+                "message": "Success",
+                "data": data
+            })
+        else:
+            return jsonify({
+                "status": False,
+                "message": "No Data",
+            })

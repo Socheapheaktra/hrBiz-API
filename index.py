@@ -15,4 +15,4 @@ app.register_blueprint(employee, url_prefix="/employee")
 app.register_blueprint(report, url_prefix='/report')
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5001)
+    app.run(debug=True)
