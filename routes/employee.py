@@ -230,7 +230,7 @@ def get_employee_list():
 @employee.route('/get-sale-presale', methods=["GET"])
 def get_sale_presale():
     """
-    :HTTP GET: http://127.0.0.1:5001/employee/get-sale-presale
+    :HTTP GET: http://127.0.0.1:5000/employee/get-sale-presale
     :return data: List of Presale Names.
     """
     try:

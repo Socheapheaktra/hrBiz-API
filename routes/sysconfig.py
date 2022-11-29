@@ -176,3 +176,131 @@ def remove_sale_presale():
             "status": True,
             "message": "Query Successful!"
         })
+
+
+@sysconfig.route("/get-all-lead", methods=['GET'])
+def list_all_lead():
+    """
+    HTTP GET: http://127.0.0.1:5000/sysconfig/get-all-lead
+    :return: status True if Query Successful and result will be in data
+    """
+    try:
+        sql = 'SELECT name FROM tblLead'
+        mycursor.execute(sql)
+    except Exception as err:
+        return jsonify({
+            "status": False,
+            "message": f"{err}"
+        })
+    else:
+        results = mycursor.fetchall()
+        data = list()
+        if results:
+            for result in results:
+                data.append(result[0])
+            return jsonify({
+                "status": True,
+                "message": "Query Success!",
+                "data": data
+            })
+
+        return jsonify({
+            "status": True,
+            "message": "No Data"
+        })
+
+
+@sysconfig.route('/get-probability', methods=['GET'])
+def list_all_probability():
+    """
+    HTTP GET: http://127.0.0.1:5000/sysconfig/get-probability
+    :return: status True if Query Success and result will be in "data"
+    """
+    try:
+        sql = 'SELECT value FROM tblProbability'
+        mycursor.execute(sql)
+    except Exception as err:
+        return jsonify({
+            "status": False,
+            "message": f"{err}"
+        })
+    else:
+        results = mycursor.fetchall()
+        if results:
+            data = list()
+            for result in results:
+                data.append(int(result[0]))
+            return jsonify({
+                "status": True,
+                "message": "Query Success!",
+                "data": data
+            })
+        else:
+            return jsonify({
+                "status": True,
+                "message": "No Data"
+            })
+
+
+@sysconfig.route('/get-deal-registration', methods=['GET'])
+def list_all_deal():
+    """
+    HTTP GET: http://127.0.0.1:5000/sysconfig/get-deal-registration
+    :return: status True if Query Success and result will be in "data"
+    """
+    try:
+        sql = 'SELECT name from tblDeal'
+        mycursor.execute(sql)
+    except Exception as err:
+        return jsonify({
+            "status": False,
+            "message": f"{err}"
+        })
+    else:
+        results = mycursor.fetchall()
+        if results:
+            data = list()
+            for result in results:
+                data.append(result[0])
+            return jsonify({
+                "status": True,
+                "message": "Query Successful!",
+                "data": data
+            })
+        else:
+            return jsonify({
+                "status": True,
+                "message": "No Data"
+            })
+
+
+@sysconfig.route('/get-project-status', methods=['GET'])
+def list_all_proj_status():
+    """
+    HTTP GET: http://127.0.0.1:5000/sysconfig/get-project-status
+    :return: status True if Query Successful and result will be in "data"
+    """
+    try:
+        sql = 'SELECT name FROM tblStatus'
+        mycursor.execute(sql)
+    except Exception as err:
+        return jsonify({
+            "status": False,
+            "message": f"{err}"
+        })
+    else:
+        results = mycursor.fetchall()
+        if results:
+            data = list()
+            for result in results:
+                data.append(result[0])
+            return jsonify({
+                "status": True,
+                "message": "Query Success!",
+                "data": data
+            })
+        else:
+            return jsonify({
+                "status": True,
+                "message": "No Data"
+            })
