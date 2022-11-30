@@ -105,6 +105,10 @@ def create_report():
             "message": "Invalid Arguments"
         })
 
+    for key in req.keys():
+        if req[f'{key}'] == "":
+            req[f'{key}'] = None
+
     try:
         sql = 'INSERT INTO tblReport(' \
               'user_id, sale_rep, presale, entry_date, forecast_lead, customer_name, contact_person, position, ' \
@@ -180,6 +184,11 @@ def edit_report():
 # TODO: Fetch Report detail after clicking on Edit Report
 @report.route('/report-detail', methods=['POST'])
 def get_report_detail():
+    """
+    HTTP POST: http://127.0.0.1:5000/report/report-detail
+    :param <str> report_id: ID of the selected report
+    :return <dict>: status True if success and result will be in "data"
+    """
     if not request.data or not request.is_json:
         return jsonify({
             "status": False,
@@ -222,16 +231,16 @@ def get_report_detail():
         data = ReportModel(
             report_id=report[0],
             user_id=report[1],
-            sale_rep=report[2],
-            presale=report[3],
+            sale_rep=report[2] if report[2] else None,
+            presale=report[3] if report[3] else None,
             entry_date=report[4].strftime("%Y-%m-%d") if report[4] else None,
-            forecast_lead=report[5],
-            cus_name=report[6],
-            contact_person=report[7],
-            position=report[8],
-            revenue=report[9],
-            project_name=report[10],
-            vendor=report[11],
+            forecast_lead=report[5] if report[5] else None,
+            cus_name=report[6] if report[6] else None,
+            contact_person=report[7] if report[7] else None,
+            position=report[8] if report[8] else None,
+            revenue=report[9] if report[9] else None,
+            project_name=report[10] if report[10] else None,
+            vendor=report[11] if report[11] else None,
             deal_registration=report[12],
             project_status=report[13],
             probability=report[14],
