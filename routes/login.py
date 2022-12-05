@@ -11,6 +11,12 @@ def test():
 
 @login.route("/validate", methods=['POST'])
 def validate_user():
+    """
+    HTTP POST: http://127.0.0.1:5000/login/validate
+    :param <str> email: Email of the login user
+    :param <str> password: Password of the login user
+    :return: status True if email and password are correct
+    """
     if not request.data or not request.is_json:
         response = {
             "status": False,

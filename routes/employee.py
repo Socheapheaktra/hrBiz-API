@@ -1,10 +1,14 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, send_file
 
-from models.user import UserModel
+from models.user import UserModel, EmployeeExportModel
 from models.presale import PresaleModel
 
 from utils.conn import mycursor, mydb
 from utils.util import check_email
+
+import pandas as pd
+
+from datetime import datetime
 
 employee = Blueprint('employee', __name__)
 
@@ -262,3 +266,100 @@ def get_sale_presale():
                 "status": False,
                 "message": "No Data",
             })
+
+# TODO: Export Employee_List as Excel format
+@employee.route("/export", methods=['GET'])
+def export_to_excel():
+    """
+    HTTP GET: http://127.0.0.1:5001/employee/export
+    :return:
+        :parameter:
+            :param: status
+            :type: boolean
+            :description: return True
+        :parameter:
+            :param: message
+            :type: string
+            :description: Message showing query success
+        :parameter:
+            :param: data
+            :type: list
+            :description: List of employees
+    :except:
+        :parameter:
+            :param: status
+            :type: boolean
+            :description: return False
+        :parameter:
+            :param: message
+            :type: string
+            :description: Failed Message
+    """
+    try:
+        sql = """
+        SELECT 
+        tblUser.id,
+        tblUser.first_name,
+        tblUser.last_name,
+        tblRole.name,
+        tblUser.email,
+        tblUser.phone,
+        tblUser.status 
+        FROM tblUser 
+        INNER JOIN tblRole ON tblUser.role_id = tblRole.id
+        """
+        mycursor.execute(sql)
+    except Exception as err:
+        return jsonify({
+            "status": False,
+            "message": f"SQL Error:{err}"
+        })
+    else:
+        result = mycursor.fetchall()
+        if not result:
+            return jsonify({
+                "status": False,
+                "message": f"No Employees found!"
+            })
+        data = list()
+        for item in result:
+            data.append(EmployeeExportModel(
+                user_id=item[0],
+                first_name=item[1],
+                last_name=item[2],
+                role=item[3],
+                email=item[4],
+                phone=item[5],
+                status="Active" if item[6] == 1 else "Inactive"
+            ).to_dict())
+
+        return jsonify({
+            "status": True,
+            "message": "Query Successful!",
+            "data": data
+        })
+
+        # file_name = f"Employee_List_{datetime.now().strftime('%d-%m-%Y')}"
+        # try:
+        #     """ Create DataFrame """""
+        #     data = pd.DataFrame(data)
+        #
+        #     """ Write to Excel """
+        #     xlsx_file = pd.ExcelWriter(
+        #         file_name,
+        #         engine="xlsxwriter"
+        #     )
+        #
+        #     data.to_excel(xlsx_file, sheet_name=f"{datetime.now().strftime('%d-%m-%Y')}", index=False)
+        #
+        #     xlsx_file.save()
+        # except Exception as err:
+        #     return jsonify({
+        #         "status": False,
+        #         "message": f"Cannot Export to Excel: {err}"
+        #     })
+        # else:
+        #     return send_file(xlsx_file,
+        #                      as_attachment=True,
+        #                      download_name=f"{file_name}.xlsx",
+        #                      mimetype='xlsx')

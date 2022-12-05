@@ -9,11 +9,19 @@ import mysql.connector
 # )
 
 """ For Local Uses """
+# TODO: Un-Comment when using your local db and comment the one below
+# mydb = mysql.connector.connect(
+#     host='localhost',
+#     user="root",
+#     password="",
+#     database="hrdb",
+# )
+
 mydb = mysql.connector.connect(
     host='localhost',
     user="root",
-    password="",
-    database="hrdb",
+    password="1234",
+    database="report",
 )
 """ 
 import SQL via CLI (Command Line)
