@@ -12,8 +12,8 @@ import mysql.connector
 mydb = mysql.connector.connect(
     host='localhost',
     user="root",
-    password="1234",
-    database="report",
+    password="",
+    database="hrdb",
 )
 """ 
 import SQL via CLI (Command Line)

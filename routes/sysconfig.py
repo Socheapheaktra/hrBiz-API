@@ -41,6 +41,43 @@ def list_sale_presale():
                 "message": "No Data Found!"
             })
 
+@sysconfig.route('/sale-presale-detail', methods=['POST'])
+def get_presale_detail():
+    if not request.data or not request.is_json:
+        return jsonify({
+            "status": False,
+            "message": "Invalid Data"
+        })
+    req = request.get_json()
+    print(req)
+    if "presale_id" not in req:
+        return jsonify({
+            "status": False,
+            "message": "Invalid Arguments"
+        })
+    try:
+        sql = 'SELECT * FROM tblPresale ' \
+              'WHERE tblPresale.id=%s'
+        values = [req['presale_id'],]
+        mycursor.execute(sql, values)
+    except Exception as err:
+        return jsonify({
+            "status": False,
+            "message": f"{err}"
+        })
+    else:
+        result = mycursor.fetchone()
+        data = PresaleModel(
+            presale_id=result[0],
+            name=result[1],
+            status="Active" if result[2] == 1 else "Inactive"
+        ).to_dict()
+        return jsonify({
+            "status": True,
+            "message": "Success",
+            "data": data
+        })
+
 @sysconfig.route("/add-sale-presale", methods=['POST'])
 def add_sale_presale():
     """
@@ -153,7 +190,7 @@ def remove_sale_presale():
         })
 
     req = request.get_json()
-    if "id" not in req:
+    if "presale_id" not in req:
         return jsonify({
             "status": False,
             "message": "Invalid Parameters"
@@ -161,8 +198,8 @@ def remove_sale_presale():
 
     try:
         sql = 'UPDATE tblPresale SET ' \
-               'status=0 WHERE id=%s'
-        values = [req['id'], ]
+               'status=0 WHERE tblPresale.id=%s'
+        values = [req['presale_id'], ]
         mycursor.execute(sql, values)
     except Exception as err:
         mydb.rollback()

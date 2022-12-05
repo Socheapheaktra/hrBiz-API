@@ -4,6 +4,7 @@ from models.user import UserModel
 
 login = Blueprint('login', __name__, template_folder='templates')
 
+
 @login.route("/test")
 def test():
     return render_template("index.html")
